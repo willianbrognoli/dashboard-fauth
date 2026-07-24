@@ -195,14 +195,15 @@ async function carregaResumo(){
 
 async function carregaSerie(){
   const s = await api('serie');
-  const diasSet = [...new Set([...s.ads.map(x=>x.dia),...s.site.map(x=>x.dia)])].sort();
+  const diasSet = [...new Set([...s.ads.map(x=>x.dia),...s.site.map(x=>x.dia),...((s.vendas||[]).map(x=>x.dia))])].sort();
   const mA = Object.fromEntries(s.ads.map(x=>[x.dia,x]));
   const mS = Object.fromEntries(s.site.map(x=>[x.dia,x]));
   const lbl = diasSet.map(x=>x.slice(8,10)+'/'+x.slice(5,7));
   novoChart('chSerie',{type:'line',data:{labels:lbl,datasets:[
     {label:'Investimento (R$)',data:diasSet.map(x=>Number(mA[x]?.gasto||0)),borderColor:'#c9a35b',backgroundColor:'rgba(201,163,91,.12)',fill:true,tension:.35,yAxisID:'y'},
     {label:'Receita (R$)',data:diasSet.map(x=>Number(mA[x]?.valor||0)),borderColor:'#3ec981',tension:.35,yAxisID:'y'},
-    {label:'Leads site',data:diasSet.map(x=>Number(mS[x]?.leads_site||0)),borderColor:'#4a9df8',borderDash:[5,4],tension:.35,yAxisID:'y1'}
+    {label:'Leads site',data:diasSet.map(x=>Number(mS[x]?.leads_site||0)),borderColor:'#4a9df8',borderDash:[5,4],tension:.35,yAxisID:'y1'},
+    ...(s.vendas&&s.vendas.length?[{type:'bar',label:'Vendas Tutory (R$)',data:diasSet.map(x=>{const v=s.vendas.find(z=>z.dia===x);return Number(v?.valor||0);}),backgroundColor:'rgba(182,120,242,.35)',borderColor:'#b678f2',borderWidth:1,yAxisID:'y'}]:[])
   ]},options:{responsive:true,interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{color:'#9aa5b1'}}},
     scales:{x:{ticks:{color:'#9aa5b1'},grid:{color:'#242e3a'}},y:{ticks:{color:'#9aa5b1'},grid:{color:'#242e3a'}},
       y1:{position:'right',ticks:{color:'#4a9df8'},grid:{display:false}}}}});
