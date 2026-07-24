@@ -291,10 +291,21 @@ app.get('/api/regiao', async (req, res) => {
   try {
     const p = periodo(req);
     const rows = await q(
-      `SELECT uf, max(regiao) regiao, sum(gasto) gasto, sum(cliques) cliques,
-              sum(leads) leads, sum(compras) compras, sum(valor_compras) valor
-       FROM metricas_regiao WHERE data BETWEEN $1::date AND $2::date AND uf <> ''
-       GROUP BY uf ORDER BY sum(compras) DESC, sum(gasto) DESC`, [p.de, p.ate]);
+      `WITH ads AS (
+         SELECT uf, max(regiao) regiao, sum(gasto) gasto, sum(cliques) cliques, sum(leads) leads
+         FROM metricas_regiao WHERE data BETWEEN $1::date AND $2::date AND uf <> '' GROUP BY uf
+       ), vendas AS (
+         SELECT upper(estado) uf, count(*)::int compras, coalesce(sum(valor),0) valor
+         FROM compras WHERE status = 'paid' AND upper(estado) <> ''
+           AND (data_hora AT TIME ZONE 'America/Sao_Paulo')::date BETWEEN $1::date AND $2::date
+         GROUP BY upper(estado)
+       )
+       SELECT coalesce(a.uf, v.uf) uf, coalesce(a.regiao, '') regiao,
+              coalesce(a.gasto, 0) gasto, coalesce(a.cliques, 0) cliques, coalesce(a.leads, 0) leads,
+              coalesce(v.compras, 0) compras, coalesce(v.valor, 0) valor
+       FROM ads a FULL OUTER JOIN vendas v ON v.uf = a.uf
+       WHERE coalesce(a.uf, v.uf) <> ''
+       ORDER BY coalesce(v.compras, 0) DESC, coalesce(a.gasto, 0) DESC`, [p.de, p.ate]);
     res.json(rows);
   } catch (e) { res.status(500).json({ erro: e.message }); }
 });
