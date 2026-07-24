@@ -201,11 +201,18 @@ app.get('/api/resumo', async (req, res) => {
     const site = await leadsSite(p.de, p.ate, f);
     const siteAnt = await leadsSite(p.antDe, p.antAte, f);
     const vendasParams = [p.de, p.ate];
+    let vendasExtra = '';
+    if (f.uf) { vendasParams.push(f.uf); vendasExtra = ' AND upper(estado) = $3'; }
     const vendas = (await q(
       `SELECT count(*)::int compras, coalesce(sum(valor),0) valor FROM compras
-       WHERE (data_hora AT TIME ZONE 'America/Sao_Paulo')::date BETWEEN $1::date AND $2::date`, vendasParams))[0];
+       WHERE status = 'paid' AND (data_hora AT TIME ZONE 'America/Sao_Paulo')::date BETWEEN $1::date AND $2::date${vendasExtra}`, vendasParams))[0];
+    const vendasAntParams = [p.antDe, p.antAte];
+    if (f.uf) vendasAntParams.push(f.uf);
+    const vendasAnt = (await q(
+      `SELECT count(*)::int compras, coalesce(sum(valor),0) valor FROM compras
+       WHERE status = 'paid' AND (data_hora AT TIME ZONE 'America/Sao_Paulo')::date BETWEEN $1::date AND $2::date${vendasExtra}`, vendasAntParams))[0];
     const gasto = num(atual.gasto), leadsAds = num(atual.leads_ads);
-    const usaTutory = !f.uf && !f.campanha && num(vendas.compras) > 0;
+    const usaTutory = !f.campanha && num(vendas.compras) > 0;
     const comprasTot = usaTutory ? num(vendas.compras) : num(atual.compras_ads);
     const valorTot = usaTutory ? num(vendas.valor) : num(atual.valor_ads);
     res.json({
@@ -216,7 +223,9 @@ app.get('/api/resumo', async (req, res) => {
       cpl: leadsAds > 0 ? gasto / leadsAds : null,
       cpa: comprasTot > 0 ? gasto / comprasTot : null,
       roas: gasto > 0 ? valorTot / gasto : null,
-      anterior: { gasto: num(ant.gasto), leads_ads: num(ant.leads_ads), compras: num(ant.compras_ads), valor_compras: num(ant.valor_ads), leads_site: siteAnt },
+      anterior: { gasto: num(ant.gasto), leads_ads: num(ant.leads_ads),
+        compras: usaTutory ? num(vendasAnt.compras) : num(ant.compras_ads),
+        valor_compras: usaTutory ? num(vendasAnt.valor) : num(ant.valor_ads), leads_site: siteAnt },
       fonte_vendas: usaTutory ? 'tutory' : 'meta_pixel'
     });
   } catch (e) { res.status(500).json({ erro: e.message }); }
@@ -243,7 +252,16 @@ app.get('/api/serie', async (req, res) => {
       `SELECT (data_hora AT TIME ZONE 'America/Sao_Paulo')::date::text dia, count(*)::int leads_site
        FROM leads WHERE (data_hora AT TIME ZONE 'America/Sao_Paulo')::date BETWEEN $1::date AND $2::date${se}
        GROUP BY 1 ORDER BY 1`, sp);
-    res.json({ ads, site });
+    let vendasDia = [];
+    if (!f.campanha) {
+      const vp = [p.de, p.ate]; let ve = '';
+      if (f.uf) { vp.push(f.uf); ve = ' AND upper(estado) = $3'; }
+      vendasDia = await q(
+        `SELECT (data_hora AT TIME ZONE 'America/Sao_Paulo')::date::text dia, count(*)::int compras, coalesce(sum(valor),0) valor
+         FROM compras WHERE status = 'paid' AND (data_hora AT TIME ZONE 'America/Sao_Paulo')::date BETWEEN $1::date AND $2::date${ve}
+         GROUP BY 1 ORDER BY 1`, vp);
+    }
+    res.json({ ads, site, vendas: vendasDia });
   } catch (e) { res.status(500).json({ erro: e.message }); }
 });
 
@@ -323,9 +341,10 @@ app.get('/api/oportunidades', async (req, res) => {
         cards.push({ tipo: 'regiao', titulo: `Oportunidade regional: ${u.uf}`, detalhe: `${u.uf} responde por ${(sc * 100).toFixed(0)}% das compras recebendo ${(sg * 100).toFixed(0)}% da verba. Vale segmentacao dedicada.` });
     }
     const pix = await q(
-      `SELECT count(*)::int n FROM leads WHERE (data_hora AT TIME ZONE 'America/Sao_Paulo')::date BETWEEN $1::date AND $2::date AND lower(status) LIKE '%pix%'`, [p.de, p.ate]);
+      `SELECT count(*)::int n, coalesce(sum(valor),0) valor FROM compras
+       WHERE status = 'pending' AND (data_hora AT TIME ZONE 'America/Sao_Paulo')::date BETWEEN $1::date AND $2::date`, [p.de, p.ate]);
     if (num(pix[0].n) > 0)
-      cards.push({ tipo: 'recuperar', titulo: 'Recuperacao de Pix', detalhe: `${pix[0].n} lead(s) com Pix gerado no periodo. Lista pronta para follow-up.` });
+      cards.push({ tipo: 'recuperar', titulo: 'Recuperacao de pagamentos', detalhe: `${pix[0].n} pedido(s) pendentes (Pix/boleto) somando ${Number(pix[0].valor).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})} no periodo. Lista pronta para follow-up.` });
     res.json(cards.slice(0, 8));
   } catch (e) { res.status(500).json({ erro: e.message }); }
 });
