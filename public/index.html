@@ -14,34 +14,48 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--txt);font-family:'Archivo',sans-serif;line-height:1.5;padding-bottom:60px}
 .wrap{max-width:1280px;margin:0 auto;padding:0 22px}
-header{border-bottom:1px solid var(--line);padding:26px 0;background:radial-gradient(800px 260px at 12% 0%,rgba(201,163,91,.09),transparent 60%)}
-.head{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
-.seal{width:64px;height:64px;border-radius:50%;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Marcellus',serif;font-size:24px;color:var(--gold2)}
-h1{font-family:'Marcellus',serif;font-weight:400;font-size:clamp(22px,3vw,30px)}
+header{border-bottom:1px solid var(--line);padding:24px 0;background:radial-gradient(800px 260px at 12% 0%,rgba(201,163,91,.09),transparent 60%)}
+.head{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.seal{width:60px;height:60px;border-radius:50%;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Marcellus',serif;font-size:22px;color:var(--gold2)}
+h1{font-family:'Marcellus',serif;font-weight:400;font-size:clamp(20px,3vw,28px)}
 .sub{color:var(--mut);font-size:13px}
-.periodos{margin-left:auto;display:flex;gap:8px}
-.pbtn{border:1px solid var(--line);background:var(--panel);color:var(--mut);border-radius:999px;padding:8px 16px;font-weight:600;font-size:13px;cursor:pointer;font-family:'Archivo'}
+.controles{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:18px}
+.pbtn,.aplicar{border:1px solid var(--line);background:var(--panel);color:var(--mut);border-radius:999px;padding:8px 15px;font-weight:600;font-size:13px;cursor:pointer;font-family:'Archivo'}
 .pbtn.on{background:var(--gold);border-color:var(--gold);color:#14100a}
+.aplicar{border-color:var(--gold);color:var(--gold2)}
+.datas{display:flex;gap:6px;align-items:center;color:var(--mut);font-size:12px}
+input[type=date]{background:var(--panel);border:1px solid var(--line);color:var(--txt);border-radius:9px;padding:7px 9px;font-family:'Archivo';font-size:13px;color-scheme:dark}
+input[type=date]:focus{outline:none;border-color:var(--gold)}
+select#selCamp{background:var(--panel);border:1px solid var(--line);color:var(--txt);border-radius:9px;padding:8px 10px;font-family:'Archivo';font-size:13px;max-width:320px}
+select#selCamp:focus{outline:none;border-color:var(--gold)}
+.chipuf{display:none;align-items:center;gap:8px;background:rgba(201,163,91,.12);border:1px solid var(--gold);color:var(--gold2);border-radius:999px;padding:7px 14px;font-size:13px;font-weight:700}
+.chipuf button{background:none;border:none;color:var(--gold2);cursor:pointer;font-size:14px;font-family:'Archivo'}
 h2{font-family:'Marcellus',serif;font-weight:400;font-size:20px;margin:34px 0 12px}
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:22px}
 .kpi{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
 .kpi small{display:block;color:var(--mut);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
-.kpi b{font-family:'Marcellus',serif;font-weight:400;font-size:21px;color:var(--gold2);display:block}
+.kpi b{font-family:'Marcellus',serif;font-weight:400;font-size:20px;color:var(--gold2);display:block}
 .kpi .delta{font-size:11.5px;font-weight:700;margin-top:4px;display:inline-block}
 .up{color:var(--ok)}.down{color:var(--ruim)}.flat{color:var(--mut)}
 .grid2{display:grid;grid-template-columns:1.4fr 1fr;gap:16px}
 .grid2b{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;position:relative}
 .card h3{font-family:'Marcellus',serif;font-weight:400;font-size:16px;margin-bottom:12px;color:var(--gold2)}
+.aviso{display:none;position:absolute;top:16px;right:16px;font-size:10.5px;color:var(--mut);border:1px dashed var(--line);border-radius:8px;padding:3px 9px}
 canvas{max-height:320px}
 table{width:100%;border-collapse:collapse;font-size:13px}
 th{color:var(--mut);text-transform:uppercase;font-size:10.5px;letter-spacing:.08em;text-align:left;padding:8px;border-bottom:1px solid var(--line)}
 td{padding:8px;border-bottom:1px solid var(--line)}
 tr:hover td{background:var(--panel2)}
+tr.sel td{background:rgba(201,163,91,.1)}
 .num{text-align:right;font-variant-numeric:tabular-nums}
 #mapa{width:100%}
-#mapa path{stroke:#0e1116;stroke-width:.8;transition:.15s;cursor:pointer}
-#mapa path:hover{stroke:var(--gold);stroke-width:1.5}
+#mapa path{stroke:#0b0e13;stroke-width:.9;transition:transform .35s ease, fill .3s;cursor:pointer}
+#mapa path:hover{filter:brightness(1.25)}
+#mapa path.sel{stroke:var(--gold2);stroke-width:2.2;filter:drop-shadow(0 0 8px rgba(227,201,143,.55))}
+.legenda{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--mut);margin-top:8px}
+.grad{flex:1;height:8px;border-radius:4px;background:linear-gradient(90deg,#1b2740,#2f6db3,#3ec9a5,#e8c774)}
+.dicamapa{font-size:11.5px;color:var(--mut);margin-top:6px}
 .map-toggle{display:flex;gap:6px;margin-bottom:10px}
 .mtg{border:1px solid var(--line);background:transparent;color:var(--mut);border-radius:8px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Archivo'}
 .mtg.on{background:var(--gold);border-color:var(--gold);color:#14100a}
@@ -54,20 +68,29 @@ tr:hover td{background:var(--panel2)}
 .op span{color:var(--mut);font-size:12.5px}
 .vazio{color:var(--mut);font-size:13px;padding:12px 0}
 footer{margin-top:44px;border-top:1px solid var(--line);padding-top:18px;color:var(--mut);font-size:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
-@media(max-width:900px){.grid2,.grid2b{grid-template-columns:1fr}.periodos{margin-left:0}}
+@media(max-width:900px){.grid2,.grid2b{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<header><div class="wrap head">
-  <div class="seal">AF</div>
-  <div>
-    <h1>Dashboard de Oportunidade</h1>
-    <div class="sub">Adriane Fauth | Fauth &amp; Freitas · Meta Ads + Leads do site em tempo real</div>
+<header><div class="wrap">
+  <div class="head">
+    <div class="seal">AF</div>
+    <div>
+      <h1>Dashboard de Oportunidade</h1>
+      <div class="sub">Adriane Fauth | Fauth &amp; Freitas · Meta Ads + Leads do site</div>
+    </div>
   </div>
-  <div class="periodos">
+  <div class="controles">
     <button class="pbtn" data-d="7">7 dias</button>
     <button class="pbtn on" data-d="30">30 dias</button>
     <button class="pbtn" data-d="90">90 dias</button>
+    <div class="datas">
+      <input type="date" id="dtDe"> <span>até</span> <input type="date" id="dtAte">
+      <button class="aplicar" id="btAplicar">Aplicar</button>
+    </div>
+    <select id="selCamp"><option value="">Todas as campanhas</option></select>
+    <div class="chipuf" id="chipUf"><span id="chipUfTxt"></span><button id="btLimpaUf" title="Remover filtro de estado">&#10005;</button></div>
+    <a href="/sair" style="margin-left:auto;border:1px solid var(--line);background:var(--panel);color:var(--mut);border-radius:999px;padding:8px 15px;font-weight:600;font-size:13px;text-decoration:none">Sair</a>
   </div>
 </div></header>
 
@@ -75,38 +98,40 @@ footer{margin-top:44px;border-top:1px solid var(--line);padding-top:18px;color:v
   <div class="kpis" id="kpis"></div>
 
   <h2>Evolução diária</h2>
-  <div class="card"><canvas id="chSerie" height="90"></canvas></div>
+  <div class="card"><span class="aviso" id="avSerie">campanha sem recorte por estado</span><canvas id="chSerie" height="90"></canvas></div>
 
   <h2>Radar de oportunidades</h2>
   <div class="ops" id="ops"><div class="vazio">Analisando o período...</div></div>
 
   <div class="grid2" style="margin-top:34px">
     <div class="card">
-      <h3>Mapa do Brasil</h3>
+      <h3>Mapa do Brasil <span style="color:var(--mut);font-size:12px">· clique num estado para filtrar</span></h3>
       <div class="map-toggle">
         <button class="mtg on" data-m="compras">Compras</button>
         <button class="mtg" data-m="leads">Leads</button>
         <button class="mtg" data-m="gasto">Investimento</button>
       </div>
-      <svg id="mapa" viewBox="0 0 640 620"></svg>
+      <svg id="mapa" viewBox="0 0 640 640"></svg>
+      <div class="legenda"><span>menos</span><div class="grad"></div><span>mais</span></div>
+      <div class="dicamapa">Estados com mais vendas aparecem levemente maiores no mapa.</div>
     </div>
     <div class="card">
       <h3>Ranking por estado</h3>
-      <div style="max-height:560px;overflow:auto">
+      <div style="max-height:600px;overflow:auto">
       <table id="tbUf"><thead><tr><th>UF</th><th class="num">Invest.</th><th class="num">Leads</th><th class="num">Compras</th><th class="num">Receita</th></tr></thead><tbody></tbody></table>
       </div>
     </div>
   </div>
 
   <div class="grid2b" style="margin-top:16px">
-    <div class="card"><h3>Investimento por idade e gênero</h3><canvas id="chDemoGasto"></canvas></div>
-    <div class="card"><h3>Compras por idade e gênero</h3><canvas id="chDemoCompras"></canvas></div>
+    <div class="card"><span class="aviso avmeta">total da conta (Meta não abre por estado)</span><h3>Investimento por idade e gênero</h3><canvas id="chDemoGasto"></canvas></div>
+    <div class="card"><span class="aviso avmeta">total da conta (Meta não abre por estado)</span><h3>Compras por idade e gênero</h3><canvas id="chDemoCompras"></canvas></div>
   </div>
 
   <div class="grid2b" style="margin-top:16px">
     <div class="card"><h3>Leads por origem (site)</h3><canvas id="chOrigens"></canvas></div>
-    <div class="card">
-      <h3>Top campanhas</h3>
+    <div class="card"><span class="aviso avmeta">total da conta (Meta não abre por estado)</span>
+      <h3>Top campanhas <span style="color:var(--mut);font-size:12px">· clique para filtrar</span></h3>
       <div style="max-height:340px;overflow:auto">
       <table id="tbCamp"><thead><tr><th>Campanha</th><th class="num">Gasto</th><th class="num">Leads</th><th class="num">Compras</th><th class="num">ROAS</th></tr></thead><tbody></tbody></table>
       </div>
@@ -114,7 +139,7 @@ footer{margin-top:44px;border-top:1px solid var(--line);padding-top:18px;color:v
   </div>
 
   <footer>
-    <div>Fontes: Meta Marketing API, formulários do site (Elementor + webhooks) e Tutory · Banco: Postgres VPS</div>
+    <div>Fontes: Meta Marketing API, formulários do site e Tutory · Banco: Postgres VPS · Estado dos leads inferido pelo DDD quando o formulário não informa.</div>
     <div id="rodape-fonte"></div>
   </footer>
 </main>
@@ -124,21 +149,36 @@ footer{margin-top:44px;border-top:1px solid var(--line);padding-top:18px;color:v
 const R$ = v => (v==null?'-':Number(v).toLocaleString('pt-BR',{style:'currency',currency:'BRL'}));
 const N = v => (v==null?'-':Number(v).toLocaleString('pt-BR'));
 const CORES = {Feminino:'#b678f2', Masculino:'#4a9df8', 'Nao informado':'#9aa5b1'};
-let dias = 30, charts = {}, geo = null, regiaoDados = [], mapaMetrica = 'compras';
+let dias=30, customDe='', customAte='', campSel='', ufSel='', charts={}, geo=null, regiaoDados=[], mapaMetrica='compras';
+
+function qs(){
+  const p = new URLSearchParams();
+  if (customDe && customAte){ p.set('de',customDe); p.set('ate',customAte); } else p.set('dias',dias);
+  if (campSel) p.set('campanha',campSel);
+  if (ufSel) p.set('uf',ufSel);
+  return p.toString();
+}
+async function api(rota){ const r = await fetch(`/api/${rota}?`+qs()); return r.json(); }
 
 function delta(atual, ant){
   if(!ant) return '<span class="delta flat">·</span>';
-  const p = ((atual-ant)/ant)*100;
-  const cls = p > 1 ? 'up' : (p < -1 ? 'down' : 'flat');
-  const seta = p > 1 ? '▲' : (p < -1 ? '▼' : '·');
+  const p=((atual-ant)/ant)*100;
+  const cls=p>1?'up':(p<-1?'down':'flat');
+  const seta=p>1?'▲':(p<-1?'▼':'·');
   return `<span class="delta ${cls}">${seta} ${Math.abs(p).toFixed(0)}%</span>`;
 }
+function novoChart(id,cfg){ if(charts[id]) charts[id].destroy(); charts[id]=new Chart(document.getElementById(id),cfg); }
 
-async function api(rota){ const r = await fetch(`/api/${rota}?dias=${dias}`); return r.json(); }
+async function carregaListaCampanhas(){
+  const rows = await api('campanhas-lista');
+  const sel = document.getElementById('selCamp');
+  const atual = campSel;
+  sel.innerHTML = '<option value="">Todas as campanhas</option>' +
+    rows.map(r=>`<option value="${r.campanha_id}" ${r.campanha_id===atual?'selected':''}>${r.campanha.length>46?r.campanha.slice(0,46)+'…':r.campanha}</option>`).join('');
+}
 
 async function carregaResumo(){
-  const r = await api('resumo');
-  const a = r.anterior || {};
+  const r = await api('resumo'); const a = r.anterior||{};
   document.getElementById('kpis').innerHTML = `
     <div class="kpi"><small>Investimento</small><b>${R$(r.gasto)}</b>${delta(r.gasto,a.gasto)}</div>
     <div class="kpi"><small>Receita</small><b>${R$(r.valor_compras)}</b>${delta(r.valor_compras,a.valor_compras)}</div>
@@ -149,37 +189,33 @@ async function carregaResumo(){
     <div class="kpi"><small>CPL</small><b>${R$(r.cpl)}</b></div>
     <div class="kpi"><small>CPA</small><b>${R$(r.cpa)}</b></div>`;
   document.getElementById('rodape-fonte').textContent =
-    r.fonte_vendas === 'tutory' ? 'Receita: Tutory (vendas reais)' : 'Receita: pixel do Meta (Tutory entra em breve)';
-}
-
-function novoChart(id, cfg){
-  if(charts[id]) charts[id].destroy();
-  charts[id] = new Chart(document.getElementById(id), cfg);
+    (r.fonte_vendas==='tutory'?'Receita: Tutory (vendas reais)':'Receita: pixel do Meta (Tutory entra em breve)') +
+    ` · Período: ${r.de.split('-').reverse().join('/')} a ${r.ate.split('-').reverse().join('/')}`;
 }
 
 async function carregaSerie(){
   const s = await api('serie');
-  const diasSet = [...new Set([...s.ads.map(x=>x.dia), ...s.site.map(x=>x.dia)])].sort();
-  const mapaAds = Object.fromEntries(s.ads.map(x=>[x.dia,x]));
-  const mapaSite = Object.fromEntries(s.site.map(x=>[x.dia,x]));
+  const diasSet = [...new Set([...s.ads.map(x=>x.dia),...s.site.map(x=>x.dia)])].sort();
+  const mA = Object.fromEntries(s.ads.map(x=>[x.dia,x]));
+  const mS = Object.fromEntries(s.site.map(x=>[x.dia,x]));
   const lbl = diasSet.map(x=>x.slice(8,10)+'/'+x.slice(5,7));
   novoChart('chSerie',{type:'line',data:{labels:lbl,datasets:[
-    {label:'Investimento (R$)',data:diasSet.map(x=>Number(mapaAds[x]?.gasto||0)),borderColor:'#c9a35b',backgroundColor:'rgba(201,163,91,.12)',fill:true,tension:.35,yAxisID:'y'},
-    {label:'Receita (R$)',data:diasSet.map(x=>Number(mapaAds[x]?.valor||0)),borderColor:'#3ec981',tension:.35,yAxisID:'y'},
-    {label:'Leads site',data:diasSet.map(x=>Number(mapaSite[x]?.leads_site||0)),borderColor:'#4a9df8',borderDash:[5,4],tension:.35,yAxisID:'y1'}
+    {label:'Investimento (R$)',data:diasSet.map(x=>Number(mA[x]?.gasto||0)),borderColor:'#c9a35b',backgroundColor:'rgba(201,163,91,.12)',fill:true,tension:.35,yAxisID:'y'},
+    {label:'Receita (R$)',data:diasSet.map(x=>Number(mA[x]?.valor||0)),borderColor:'#3ec981',tension:.35,yAxisID:'y'},
+    {label:'Leads site',data:diasSet.map(x=>Number(mS[x]?.leads_site||0)),borderColor:'#4a9df8',borderDash:[5,4],tension:.35,yAxisID:'y1'}
   ]},options:{responsive:true,interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{color:'#9aa5b1'}}},
-    scales:{x:{ticks:{color:'#9aa5b1'},grid:{color:'#242e3a'}},
-      y:{ticks:{color:'#9aa5b1'},grid:{color:'#242e3a'}},
+    scales:{x:{ticks:{color:'#9aa5b1'},grid:{color:'#242e3a'}},y:{ticks:{color:'#9aa5b1'},grid:{color:'#242e3a'}},
       y1:{position:'right',ticks:{color:'#4a9df8'},grid:{display:false}}}}});
+  document.getElementById('avSerie').style.display = (ufSel && campSel) ? 'block' : 'none';
 }
 
 async function carregaDemo(){
   const rows = await api('demografia');
-  const idades = [...new Set(rows.map(r=>r.idade))].sort();
-  const generos = [...new Set(rows.map(r=>r.genero))];
-  const ds = m => generos.map(g=>({label:g,backgroundColor:CORES[g]||'#c9a35b',
-    data:idades.map(i=>{const hit=rows.find(r=>r.idade===i&&r.genero===g);return Number(hit?.[m]||0);})}));
-  const opts = {responsive:true,plugins:{legend:{labels:{color:'#9aa5b1'}}},
+  const idades=[...new Set(rows.map(r=>r.idade))].sort();
+  const generos=[...new Set(rows.map(r=>r.genero))];
+  const ds=m=>generos.map(g=>({label:g,backgroundColor:CORES[g]||'#c9a35b',
+    data:idades.map(i=>{const h=rows.find(r=>r.idade===i&&r.genero===g);return Number(h?.[m]||0);})}));
+  const opts={responsive:true,plugins:{legend:{labels:{color:'#9aa5b1'}}},
     scales:{x:{stacked:true,ticks:{color:'#9aa5b1'},grid:{color:'#242e3a'}},y:{stacked:true,ticks:{color:'#9aa5b1'},grid:{color:'#242e3a'}}}};
   novoChart('chDemoGasto',{type:'bar',data:{labels:idades,datasets:ds('gasto')},options:opts});
   novoChart('chDemoCompras',{type:'bar',data:{labels:idades,datasets:ds('compras')},options:opts});
@@ -195,38 +231,68 @@ async function carregaOrigens(){
 async function carregaCampanhas(){
   const rows = await api('campanhas');
   document.querySelector('#tbCamp tbody').innerHTML = rows.map(r=>{
-    const roas = Number(r.gasto)>0 ? Number(r.valor)/Number(r.gasto) : 0;
-    return `<tr><td title="${r.campanha}">${r.campanha.length>42?r.campanha.slice(0,42)+'…':r.campanha}</td>
+    const roas = Number(r.gasto)>0?Number(r.valor)/Number(r.gasto):0;
+    return `<tr data-id="${r.campanha_id}" class="${r.campanha_id===campSel?'sel':''}" style="cursor:pointer">
+      <td title="${r.campanha}">${r.campanha.length>42?r.campanha.slice(0,42)+'…':r.campanha}</td>
       <td class="num">${R$(r.gasto)}</td><td class="num">${N(r.leads)}</td>
       <td class="num">${N(r.compras)}</td><td class="num" style="color:${roas>=1?'#3ec981':'#ff5d5d'}">${roas?roas.toFixed(2):'-'}</td></tr>`;
   }).join('') || '<tr><td colspan="5" class="vazio">Sem dados no período.</td></tr>';
+  document.querySelectorAll('#tbCamp tbody tr[data-id]').forEach(tr=>tr.addEventListener('click',()=>{
+    campSel = (campSel===tr.dataset.id) ? '' : tr.dataset.id;
+    document.getElementById('selCamp').value = campSel;
+    carregaTudo();
+  }));
 }
 
 async function carregaOps(){
   const cards = await api('oportunidades');
   document.getElementById('ops').innerHTML = cards.length
     ? cards.map(c=>`<div class="op ${c.tipo}"><b>${c.titulo}</b><span>${c.detalhe}</span></div>`).join('')
-    : '<div class="vazio">Nenhuma oportunidade destacada no período. Bom sinal: distribuição equilibrada.</div>';
+    : '<div class="vazio">Nenhuma oportunidade destacada no período.</div>';
+}
+
+function atualizaChipUf(){
+  const chip=document.getElementById('chipUf');
+  if(ufSel){ chip.style.display='inline-flex'; document.getElementById('chipUfTxt').textContent='Estado: '+ufSel; }
+  else chip.style.display='none';
+  document.querySelectorAll('.avmeta').forEach(a=>a.style.display = ufSel?'block':'none');
 }
 
 function pintaMapa(){
   if(!geo) return;
-  const svg = d3.select('#mapa');
-  svg.selectAll('*').remove();
-  const proj = d3.geoMercator().fitSize([640,620],geo);
-  const path = d3.geoPath(proj);
-  const porUf = Object.fromEntries(regiaoDados.map(r=>[r.uf,r]));
-  const max = Math.max(1,...regiaoDados.map(r=>Number(r[mapaMetrica]||0)));
-  const escala = d3.scaleLinear().domain([0,max]).range(['#1a212b','#c9a35b']);
-  const tt = document.getElementById('tt');
-  svg.selectAll('path').data(geo.features).join('path')
+  const svg=d3.select('#mapa'); svg.selectAll('*').remove();
+  const proj=d3.geoMercator().fitExtent([[22,22],[618,618]],geo);
+  const path=d3.geoPath(proj);
+  const porUf=Object.fromEntries(regiaoDados.map(r=>[r.uf,r]));
+  const max=Math.max(1,...regiaoDados.map(r=>Number(r[mapaMetrica]||0)));
+  const maxCompras=Math.max(1,...regiaoDados.map(r=>Number(r.compras||0)));
+  const escala=d3.scaleSequential(d3.interpolateRgbBasis(['#1b2740','#2f6db3','#3ec9a5','#e8c774'])).domain([0,max]);
+  const tt=document.getElementById('tt');
+  const feats=[...geo.features].sort((a,b)=>{
+    const ca=Number(porUf[a.properties.sigla]?.compras||0), cb=Number(porUf[b.properties.sigla]?.compras||0);
+    return ca-cb;
+  });
+  svg.selectAll('path').data(feats).join('path')
     .attr('d',path)
-    .attr('fill',f=>{const d=porUf[f.properties.sigla];return d?escala(Number(d[mapaMetrica]||0)):'#151b23';})
+    .attr('class',f=>f.properties.sigla===ufSel?'sel':'')
+    .attr('fill',f=>{const d=porUf[f.properties.sigla];return d?escala(Number(d[mapaMetrica]||0)):'#141b26';})
+    .attr('transform',f=>{
+      const c=path.centroid(f);
+      const compras=Number(porUf[f.properties.sigla]?.compras||0);
+      const k=1+0.16*(compras/maxCompras);
+      return `translate(${c[0]},${c[1]}) scale(${k}) translate(${-c[0]},${-c[1]})`;
+    })
+    .on('click',(ev,f)=>{
+      const sig=f.properties.sigla;
+      ufSel = (ufSel===sig)?'':sig;
+      atualizaChipUf(); carregaTudo();
+    })
     .on('mousemove',(ev,f)=>{
-      const d = porUf[f.properties.sigla]||{};
+      const d=porUf[f.properties.sigla]||{};
       tt.style.display='block';tt.style.left=(ev.clientX+14)+'px';tt.style.top=(ev.clientY+14)+'px';
       tt.innerHTML=`<b style="color:#e3c98f">${f.properties.name} (${f.properties.sigla})</b><br>
-        Invest.: ${R$(d.gasto||0)}<br>Leads: ${N(d.leads||0)} · Compras: ${N(d.compras||0)}<br>Receita: ${R$(d.valor||0)}`;
+        Invest.: ${R$(d.gasto||0)}<br>Leads: ${N(d.leads||0)} · Compras: ${N(d.compras||0)}<br>Receita: ${R$(d.valor||0)}<br>
+        <span style="color:#9aa5b1">${ufSel===f.properties.sigla?'clique para remover o filtro':'clique para filtrar'}</span>`;
     })
     .on('mouseleave',()=>{tt.style.display='none';});
 }
@@ -234,22 +300,40 @@ function pintaMapa(){
 async function carregaRegiao(){
   regiaoDados = await api('regiao');
   document.querySelector('#tbUf tbody').innerHTML = regiaoDados.map(r=>
-    `<tr><td><b>${r.uf}</b></td><td class="num">${R$(r.gasto)}</td><td class="num">${N(r.leads)}</td>
+    `<tr data-uf="${r.uf}" class="${r.uf===ufSel?'sel':''}" style="cursor:pointer"><td><b>${r.uf}</b></td>
+     <td class="num">${R$(r.gasto)}</td><td class="num">${N(r.leads)}</td>
      <td class="num">${N(r.compras)}</td><td class="num">${R$(r.valor)}</td></tr>`).join('');
+  document.querySelectorAll('#tbUf tbody tr').forEach(tr=>tr.addEventListener('click',()=>{
+    ufSel=(ufSel===tr.dataset.uf)?'':tr.dataset.uf;
+    atualizaChipUf(); carregaTudo();
+  }));
   pintaMapa();
 }
 
 async function carregaTudo(){
-  carregaResumo(); carregaSerie(); carregaDemo(); carregaOrigens(); carregaCampanhas(); carregaOps(); carregaRegiao();
+  atualizaChipUf();
+  carregaListaCampanhas(); carregaResumo(); carregaSerie(); carregaDemo();
+  carregaOrigens(); carregaCampanhas(); carregaOps(); carregaRegiao();
 }
 
 document.querySelectorAll('.pbtn').forEach(b=>b.addEventListener('click',()=>{
   document.querySelectorAll('.pbtn').forEach(x=>x.classList.remove('on'));
-  b.classList.add('on'); dias = Number(b.dataset.d); carregaTudo();
+  b.classList.add('on'); dias=Number(b.dataset.d); customDe=''; customAte='';
+  document.getElementById('dtDe').value=''; document.getElementById('dtAte').value='';
+  carregaTudo();
 }));
+document.getElementById('btAplicar').addEventListener('click',()=>{
+  const de=document.getElementById('dtDe').value, ate=document.getElementById('dtAte').value;
+  if(!de||!ate) return alert('Escolha as duas datas.');
+  customDe=de; customAte=ate;
+  document.querySelectorAll('.pbtn').forEach(x=>x.classList.remove('on'));
+  carregaTudo();
+});
+document.getElementById('selCamp').addEventListener('change',e=>{campSel=e.target.value;carregaTudo();});
+document.getElementById('btLimpaUf').addEventListener('click',()=>{ufSel='';atualizaChipUf();carregaTudo();});
 document.querySelectorAll('.mtg').forEach(b=>b.addEventListener('click',()=>{
   document.querySelectorAll('.mtg').forEach(x=>x.classList.remove('on'));
-  b.classList.add('on'); mapaMetrica = b.dataset.m; pintaMapa();
+  b.classList.add('on'); mapaMetrica=b.dataset.m; pintaMapa();
 }));
 
 fetch('/brazil-states.geojson').then(r=>r.json()).then(g=>{geo=g;pintaMapa();});
